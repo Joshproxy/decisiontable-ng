@@ -1,0 +1,18 @@
+<div class="DecisionTableCreator">
+  <div>
+    <button class="btn btn-lg btn-primary pull-xs-right" type="submit" value="Add" (click)="data.addVariable()">
+      add decision variable
+    </button>
+    <button class="btn btn-lg btn-primary pull-xs-right" type="submit" value="Clear" (click)="data.clear()">
+      clear all
+    </button>
+  </div>
+  <div>
+    <ul>
+      <li *ngFor="let decisionVariable of data.decisionVariables" class="decisionVariableItem">
+        <app-decision-table-variable [variable]="decisionVariable" (changed)="onVariableChange($event)" (typeChanged)="onVariableTypeChange($event)" (removed)="onVariableRemoved($event)"></app-decision-table-variable>
+      </li>      
+    </ul>
+  </div>
+  <app-decision-table [data]="this.data" (toggleColumnVisibility)="toggleColumn($event)"></app-decision-table>
+</div>

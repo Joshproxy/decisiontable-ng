@@ -1,0 +1,32 @@
+<div class="DecisionTable">
+  <div>
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td class="toggle-cell" *ngFor="let columnVisible of data.columnsVisible; let columnIndex = index">
+            <button class="btn btn-sm btn-secondary pull-xs-right toggle-button" (click)="toggleColumn(columnIndex)">
+              {{(columnVisible) ? "+" : "-"}}
+            </button>
+          </td>
+        </tr>
+        <tr *ngFor="let row of data.matrix; let rowIndex = index">
+          <td class="var-label">
+            {{data.decisionVariables[rowIndex].name}}
+          </td>
+          <td *ngFor="let column of row; let columnIndex = index" [class]="columnClassName(columnIndex, column.outcome)">
+            {{column.value}}
+          </td>
+        </tr>
+        <tr>
+          <td class="result-row">
+            Result
+          </td>
+          <td *ngFor="let result of results" [class]="(result) ? 'success' : 'failure'">
+            {{(result) ? 'T' : 'F'}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div className="DecisionVariableInput">
+  <label>Name:</label>
+  <input label="Name" placholder="Variable name" [(ngModel)]="variable.name" (change)="onChange()" />
+  <span [ngSwitch]="variable.type">
+    <span *ngSwitchCase="variableType.STRING">
+      <label>True value:</label>
+      <input type="text" [(ngModel)]="variable.trueValue" (change)="onChange()" placholder="True value">
+    </span>
+
+    <span *ngSwitchCase="variableType.NUMBER">
+      <label>True value:</label>
+      <input type="number" [(ngModel)]="variable.trueValue" (change)="onChange()" placholder="True value" min="-99999999" max="99999999" />
+    </span>
+
+    <span *ngSwitchCase="variableType.NUMBER_RANGE">
+      <label>True value:</label>
+      <input type="number" [(ngModel)]="variable.trueValue.min" (change)="onChange()" placholder="min" min="-99999999" max="99999999" />
+      -
+      <input type="number" [(ngModel)]="variable.trueValue.max" (change)="onChange()" placholder="max" min="-99999999" max="99999999" />
+    </span>
+  </span>
+  <label>Type:</label>
+  <select [ngModel]="variable.type" (change)="changeVariableType($event.target.value)">    
+    <option [value]="variableType.BOOLEAN">
+      Boolean
+    </option>
+    <option [value]="variableType.STRING">
+      String
+    </option>
+    <option [value]="variableType.NUMBER">
+      Number
+    </option>
+    <option [value]="variableType.NUMBER_RANGE">
+      Number Range
+    </option>
+  </select>
+
+  <button class="btn btn-lg btn-primary pull-xs-right" (click)="remove()">
+    remove
+  </button>
+</div>
