@@ -1,5 +1,5 @@
 import { IBoundary } from './IBoundary';
-import { IDecisionVariable } from './IDecisionVariable/DecisionVariable';
+import { DecisionVariable, IDecisionVariable } from './IDecisionVariable/DecisionVariable';
 import { DecisionVariableBoolean } from './IDecisionVariable/DecisionVariableBoolean';
 import { DecisionVariableNumber } from './IDecisionVariable/DecisionVariableNumber';
 import { DecisionVariableNumberRange } from './IDecisionVariable/DecisionVariableNumberRange';
@@ -39,45 +39,6 @@ export class DecisionTableData {
   private _matrix: IBoundary[][];
   private _columnsVisible: boolean[];
 
-  private static changeVariableType = (variable: IDecisionVariable) => {
-    let newVariableType: IDecisionVariable;
-
-    switch (variable.type) {
-      case VariableType.BOOLEAN:
-        newVariableType = new DecisionVariableBoolean(
-          variable.id,
-          variable.name
-        );
-        break;
-      case VariableType.STRING:
-        newVariableType = new DecisionVariableString(
-          variable.id,
-          variable.name,
-          ''
-        );
-        break;
-      case VariableType.NUMBER:
-        newVariableType = new DecisionVariableNumber(
-          variable.id,
-          variable.name,
-          1
-        );
-        break;
-      case VariableType.NUMBER_RANGE:
-        newVariableType = new DecisionVariableNumberRange(
-          variable.id,
-          variable.name
-        );
-        break;
-      default:
-        newVariableType = new DecisionVariableBoolean(
-          variable.id,
-          variable.name
-        );
-    }
-    return newVariableType;
-  }
-
   private nextId = () => {
     const vars = this.decisionVariables;
     return vars.length > 0 ? vars[vars.length - 1].id + 1 : 0;
@@ -92,9 +53,6 @@ export class DecisionTableData {
     editedVariable.updateBoundaries();
     this._decisionVariables = this._decisionVariables.map(v => {
       if (v.id === editedVariable.id) {
-        if (typeChanged) {
-          editedVariable = DecisionTableData.changeVariableType(editedVariable);
-        }
         return editedVariable;
       } else {
         return v;

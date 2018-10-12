@@ -21,10 +21,6 @@ export class DecisionTableCreatorComponent {
     this.data.changeVariable(changedVariable);
   }
 
-  onVariableTypeChange(changedVariable: IDecisionVariable) {
-    this.data.changeVariable(changedVariable, true);
-  }
-
   onVariableRemoved(id: number) {
     this.data.removeVariable(id);
   }

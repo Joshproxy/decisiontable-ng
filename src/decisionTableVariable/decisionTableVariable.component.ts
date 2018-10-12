@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { IDecisionVariable } from '../models/IDecisionVariable/DecisionVariable';
+import { DecisionVariable, IDecisionVariable } from '../models/IDecisionVariable/DecisionVariable';
 import { DecisionVariableBoolean } from '../models/IDecisionVariable/DecisionVariableBoolean';
 import { DecisionVariableNumber } from '../models/IDecisionVariable/DecisionVariableNumber';
 import {
@@ -19,8 +19,6 @@ export class DecisionTableVariableComponent {
   @Output()
   changed = new EventEmitter<IDecisionVariable>();
   @Output()
-  typeChanged = new EventEmitter<IDecisionVariable>();
-  @Output()
   removed = new EventEmitter<number>();
   readonly variableType = VariableType;
   constructor() {}
@@ -34,14 +32,54 @@ export class DecisionTableVariableComponent {
     return this._variable;
   }
 
+  public modifyVariableType = (newType: VariableType): IDecisionVariable => {
+    let newVariableType: IDecisionVariable;
+
+    switch (newType) {
+      case VariableType.BOOLEAN:
+        newVariableType = new DecisionVariableBoolean(
+          this._variable.id,
+          this._variable.name
+        );
+        break;
+      case VariableType.STRING:
+        newVariableType = new DecisionVariableString(
+          this._variable.id,
+          this._variable.name,
+          ''
+        );
+        break;
+      case VariableType.NUMBER:
+        newVariableType = new DecisionVariableNumber(
+          this._variable.id,
+          this._variable.name,
+          1
+        );
+        break;
+      case VariableType.NUMBER_RANGE:
+        newVariableType = new DecisionVariableNumberRange(
+          this._variable.id,
+          this._variable.name
+        );
+        break;
+      default:
+        newVariableType = new DecisionVariableBoolean(
+          this._variable.id,
+          this._variable.name
+        );
+    }
+    return newVariableType;
+  }
+
   onChange() {
+    this._variable.updateBoundaries();
     this.changed.emit(this._variable);
   }
 
-  changeVariableType = (newTypeValue: string) => {
+ changeVariableType = (newTypeValue: string) => {
     const newType = parseInt(newTypeValue, 10) as VariableType;
-    this._variable.type = newType;
-    this.typeChanged.emit(this._variable);
+    this._variable = this.modifyVariableType(newType);
+    this.onChange();
   }
 
   remove() {

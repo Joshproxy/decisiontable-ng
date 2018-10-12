@@ -10,7 +10,7 @@
   <div>
     <ul>
       <li *ngFor="let decisionVariable of data.decisionVariables" class="decisionVariableItem">
-        <app-decision-table-variable [variable]="decisionVariable" (changed)="onVariableChange($event)" (typeChanged)="onVariableTypeChange($event)" (removed)="onVariableRemoved($event)"></app-decision-table-variable>
+        <app-decision-table-variable [variable]="decisionVariable" (changed)="onVariableChange($event)" (removed)="onVariableRemoved($event)"></app-decision-table-variable>
       </li>      
     </ul>
   </div>

@@ -11,7 +11,6 @@ export interface IDecisionVariable {
 }
 
 export abstract class DecisionVariable<T> implements IDecisionVariable {
-  public boundaries: IBoundary[];
   constructor(
     public id: number,
     public name: string,
@@ -20,5 +19,6 @@ export abstract class DecisionVariable<T> implements IDecisionVariable {
   ) {
     this.updateBoundaries();
   }
+  public boundaries: IBoundary[];
   public abstract updateBoundaries(): void;
 }
